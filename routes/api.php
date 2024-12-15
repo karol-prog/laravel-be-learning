@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Brands\BrandsController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('auth')->group(function () {
+Route::prefix('v1/auth')->group(function () {
 	Route::post('/register', [AuthController::class, 'register']);
 	Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+	Route::prefix('v1/brands')->controller(BrandsController::class)->group(function () {
+		Route::get('/allBrands', 'index');
+		Route::get('/brand/{id}', 'show');
+		Route::post('/addNewBrand', 'store');
+		Route::put('/updateBrand/{id}', 'updateBrand');
+		Route::delete('/deleteBrand/{id}', 'deleteBrand');
+	});
 });
