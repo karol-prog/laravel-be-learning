@@ -1,17 +1,19 @@
-<?php namespace App\Http\Requests\Auth;
+<?php
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthLoginRequest extends FormRequest {
-
-	public function authorize() {
+class AuthLoginRequest extends FormRequest
+{
+	public function authorize(): bool {
 		return true;
 	}
 
-	public function rules() {
-		return [
-			'email' => 'required|email',
-			'password' => 'required|string|min:8'
-		];
-	}
+    public function rules(): array
+    {
+        return [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8'],
+        ];
+    }
 }

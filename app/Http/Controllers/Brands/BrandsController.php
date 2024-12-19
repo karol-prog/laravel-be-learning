@@ -33,11 +33,6 @@ class BrandsController extends Controller
 	}
 
 	public function store(BrandsRequest $request) {
-
-		if (!Auth::check()) {
-			return response()->json(['message' => 'Unauthorized'], 403);
-		}
-
 		try {
 			$brandName = $request->validated();
 
@@ -52,10 +47,6 @@ class BrandsController extends Controller
 	}
 
 	public function updateBrand($id, BrandsRequest $request) {
-		if (!Auth::check()) {
-			return response()->json(['message' => 'Unauthorized'], 403);
-		}
-
 		try {
 			$brandName = $request->validated();
 
