@@ -6,27 +6,17 @@ use App\Models\Brands;
 
 use Illuminate\Routing\Controller;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Brands\BrandsRequest;
-use Illuminate\Support\Facades\Log;
 
 class BrandsController extends Controller
 {
 	public function index()
 	{
-		if (!Auth::check()) {
-			return response()->json(['message' => 'Unauthorized'], 403);
-		}
-
 		$brands = Brands::paginate(10);
 		return response()->json($brands, 200);
 	}
 
 	public function show($id) {
-		if (!Auth::check()) {
-			return response()->json(['message' => 'Unauthorized'], 403);
-		}
-
 		$brand = Brands::find($id);
 		if ($brand) return response()->json($brand, 200);
 		else return response()->json(['message' => 'Brand not found'], 404);
@@ -58,10 +48,6 @@ class BrandsController extends Controller
 	}
 
 	public function deleteBrand($id) {
-		if (!Auth::check()) {
-			return response()->json(['message' => 'Unauthorized'], 403);
-		}
-
 		try {
 			Brands::find($id)->delete();
 			return response()->json('Brand deleted', 200);

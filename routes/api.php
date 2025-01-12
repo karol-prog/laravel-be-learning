@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Brands\BrandsController;
+use App\Http\Controllers\Categories\CategoriesController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::prefix('v1/auth')->group(function () {
 	Route::post('/login', [AuthController::class, 'login']);
 });
 
+//BRANDS
 Route::middleware('auth:sanctum')->group(function () {
 	Route::prefix('v1/brands')->controller(BrandsController::class)->group(function () {
 		Route::get('/allBrands', 'index');
@@ -28,5 +30,16 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/addNewBrand', 'store');
 		Route::put('/updateBrand/{id}', 'updateBrand');
 		Route::delete('/deleteBrand/{id}', 'deleteBrand');
+	});
+});
+
+//CATEGORIES
+Route::middleware('auth:sanctum')->group(function (): void {
+	Route::prefix('v1/categories')->controller(CategoriesController::class)->group(function () {
+		Route::get('/allCategories', 'index');
+		Route::get('/category/{id}', 'show');
+		Route::post('/addNewCategory', 'store');
+		Route::put('/updateCategory/{id}', 'updateCategory');
+		Route::delete('/deleteCategory/{id}', 'deleteCategory');
 	});
 });
