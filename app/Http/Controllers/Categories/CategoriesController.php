@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Categories;
 
 use App\Http\Requests\Categories\CategoriesRequest;
 use App\Models\Categories;
-use Illuminate\Http\Request;
+
 use Illuminate\Routing\Controller;
 
 
@@ -54,33 +54,29 @@ class CategoriesController extends Controller
 
 	public function updateCategory($id, CategoriesRequest $request) {
 		try {
-			dd($request->all());
 			$validatedData = $request->validated();
 
-			dd($validatedData);
 			$category = Categories::find($id);
 
 			if (!$category) {
 				return response()->json(['message' => 'Category not found'], 404);
-			} else {
-				$categoryName = $validatedData['name'];
-				$categoryImage = $request->file('image');
-
-				$category->name = $categoryName;
-
-				if ($categoryImage) {
-					$imagePath = $categoryImage->store('images', 'public');
-					$category->image = $imagePath;
-				}
-
-				$category->save();
 			}
+
+			$category->name = $validatedData['name'];
+
+			if ($request->hasFile('image')) {
+				$imagePath = $request->file('image')->store('images', 'public');
+				$category->image = $imagePath;
+			}
+
+			$category->save();
 
 			return response()->json(['message' => 'Category updated successfully'], 200);
 		} catch (\Exception $e) {
 			return response()->json(['message' => $e->getMessage()], 500);
 		}
 	}
+
 
 	public function deleteCategory($id) {
 		try {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Brands\BrandsController;
 use App\Http\Controllers\Categories\CategoriesController;
+use App\Http\Controllers\Location\LocationController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +40,18 @@ Route::middleware('auth:sanctum')->group(function (): void {
 		Route::get('/allCategories', 'index');
 		Route::get('/category/{id}', 'show');
 		Route::post('/addNewCategory', 'store');
-		Route::put('/updateCategory/{id}', 'updateCategory');
+		Route::post('/updateCategory/{id}', 'updateCategory');
 		Route::delete('/deleteCategory/{id}', 'deleteCategory');
+	});
+});
+
+//LOCATIONS
+Route::middleware('auth:sanctum')->group(function () {
+	Route::prefix('v1/locations')->controller(LocationController::class)->group(function () {
+		// Route::get('/allLocations', 'index');
+		// Route::get('/location/{id}', 'show');
+		Route::post('/addNewLocation', 'store');
+		Route::put('/updateLocation/{id}', 'updateLocation');
+		Route::delete('/deleteLocation/{id}', 'deleteLocation');
 	});
 });
