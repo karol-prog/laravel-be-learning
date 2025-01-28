@@ -72,16 +72,54 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(LocationRequest $request, string $id)
+    public function updateLocation(LocationRequest $request, string $id)
     {
-        //
+        try {
+			$validated = $request->validated();
+
+			$location = Location::find($id);
+
+			if ($location) {
+				$location->update([
+					'street' => $validated['street'],
+					'building' => $validated['building'],
+					'area' => $validated['area']
+				]);
+
+				return response()->json([
+					'message' => 'Location updated successfully'
+				], 200);
+			} else {
+				return response()->json([
+					'message' => 'Location not found'
+				], 404);
+			}
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error updating location'
+            ], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deleteLocation(string $id)
     {
-        //
+		try {
+
+			$location = Location::find($id);
+
+			if ($location) {
+				$location->delete();
+				return response()->json([
+					'message' => 'Location deleted successfully'
+				], 200);
+			}
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => 'Error deleting location'
+			], 500);
+		}
     }
 }

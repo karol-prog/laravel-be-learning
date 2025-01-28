@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		// Route::get('/allLocations', 'index');
 		// Route::get('/location/{id}', 'show');
 		Route::post('/addNewLocation', 'store');
-		Route::put('/updateLocation/{id}', 'updateLocation');
+		Route::post('/updateLocation/{id}', 'updateLocation');
 		Route::delete('/deleteLocation/{id}', 'deleteLocation');
 	});
 });

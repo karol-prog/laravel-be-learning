@@ -11,7 +11,7 @@ class LocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,6 +21,7 @@ class LocationRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             "street" => 'required|string',
 			"building" => 'required|string',
